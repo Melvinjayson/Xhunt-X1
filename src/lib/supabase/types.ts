@@ -270,6 +270,8 @@ export interface ValidationEvidence {
   submitted_at: string;
 }
 
+export type RoutingTier = 'auto_approved' | 'human_review' | 'auto_rejected' | 'escalated';
+
 export interface DbOutcomeValidation {
   id: string;
   tenant_id: string;
@@ -282,10 +284,43 @@ export interface DbOutcomeValidation {
   reviewer_id: string | null;
   reviewer_notes: string | null;
   confidence_score: number | null;
+  // ── Verification layer (migration 030) ──────────────────────────────────
+  risk_score: number | null;
+  evidence_source_tier: number | null;
+  routing_tier: RoutingTier | null;
+  integrity_signals: unknown[];
+  provenance: unknown[];
+  // ────────────────────────────────────────────────────────────────────────
   submitted_at: string;
   reviewed_at: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface DbMissionVerificationSpec {
+  id: string;
+  tenant_id: string;
+  mission_id: string;
+  required_evidence_types: string[];
+  min_source_tier: number;
+  requires_peer_quorum: number;
+  auto_approve_threshold: number;
+  human_review_threshold: number;
+  friction_estimate: 'low' | 'medium' | 'high' | null;
+  residual_risk: string | null;
+  rationale: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DbEvidenceFingerprint {
+  id: string;
+  tenant_id: string;
+  fingerprint: string;
+  evidence_type: string;
+  first_seen_validation_id: string | null;
+  seen_count: number;
+  created_at: string;
 }
 
 // ── Escrow Services ───────────────────────────────────────────────────────────

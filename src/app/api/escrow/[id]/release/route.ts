@@ -33,6 +33,24 @@ export async function POST(
     return NextResponse.json({ error: `Cannot release escrow in status: ${escrow.status}` }, { status: 409 });
   }
 
+  // Escrow safety: never release when a gating validation is unresolved and escalated.
+  if (escrow.mission_id) {
+    const { data: blocked } = await sb
+      .from('outcome_validations')
+      .select('id')
+      .eq('tenant_id', profile.tenant_id)
+      .eq('mission_id', escrow.mission_id)
+      .eq('routing_tier', 'escalated')
+      .eq('status', 'under_review')
+      .limit(1);
+    if (blocked && blocked.length > 0) {
+      return NextResponse.json(
+        { error: 'Escrow release blocked: unresolved escalated validation on this mission.' },
+        { status: 409 },
+      );
+    }
+  }
+
   const releaseAmount = body.release_amount_cents ?? escrow.amount_cents - escrow.released_amount_cents;
   const newReleasedTotal = escrow.released_amount_cents + releaseAmount;
   const isFullRelease = newReleasedTotal >= escrow.amount_cents;
