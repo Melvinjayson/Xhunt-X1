@@ -19,9 +19,12 @@ CREATE TABLE IF NOT EXISTS public.trust_scores (
   evidence_count integer NOT NULL DEFAULT 0,
   decay_factor   numeric(4,3) NOT NULL DEFAULT 1.0, -- reduces score for inactivity
   last_interaction timestamptz,
-  updated_at     timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (trustor_id, trustee_id, dimension, COALESCE(context, ''))
+  updated_at     timestamptz NOT NULL DEFAULT now()
 );
+
+-- Expression-based unique index (UNIQUE constraint can't use COALESCE in PG < 17)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_trust_scores_unique
+  ON public.trust_scores (trustor_id, trustee_id, dimension, COALESCE(context, ''));
 
 -- Aggregate trust profile per user (materialized from trust_scores)
 CREATE TABLE IF NOT EXISTS public.trust_profiles (
