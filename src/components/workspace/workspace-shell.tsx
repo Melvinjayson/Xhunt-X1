@@ -14,6 +14,7 @@ import {
   Wallet,
   Zap,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Sidebar,
   SidebarContent,
@@ -127,6 +128,7 @@ export function WorkspaceShell({ children, title, subtitle, actions }: Workspace
               {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
             </div>
             <div className="flex items-center gap-2 shrink-0">
+              <ThemeToggle />
               <Badge variant="outline" className="gap-1 text-[10px] border-primary/30 text-primary">
                 <Building2 className="size-2.5" />
                 Mission Control

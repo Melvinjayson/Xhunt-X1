@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Sidebar,
   SidebarContent,
@@ -170,6 +171,7 @@ export function ConsumerShell({
           <Button size="icon" variant="ghost" className="ml-auto sm:ml-0" aria-label="Notifications">
             <Bell className="size-4" />
           </Button>
+          <ThemeToggle />
           <Avatar className="size-8">
             <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">XH</AvatarFallback>
           </Avatar>
