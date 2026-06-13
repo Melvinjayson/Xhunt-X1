@@ -24,10 +24,10 @@ import {
 } from "lucide-react";
 
 export const marketingNav = [
-  { href: "/home", label: "Participant app" },
-  { href: "/mission-control", label: "Intelligence layer" },
-  { href: "/workspace", label: "Workspace" },
-  { href: "/developers", label: "API docs" },
+  { href: "/home", label: "Get started" },
+  { href: "/mission-control", label: "How it works" },
+  { href: "/workspace", label: "For organisations" },
+  { href: "/developers", label: "Build with us" },
 ];
 
 export const missionSignals = [
@@ -78,10 +78,10 @@ export const missionSignals = [
 ];
 
 export const platformStats = [
-  { label: "Verified outcomes", value: "2.4M", detail: "proof events processed", icon: BadgeCheck },
-  { label: "Trust graph edges", value: "12,543", detail: "identity and contribution links", icon: Network },
-  { label: "Agent decisions reviewed", value: "94%", detail: "human-auditable outputs", icon: ShieldCheck },
-  { label: "Active participants", value: "1,247", detail: "people coordinating now", icon: Users },
+  { label: "Verified outcomes", value: "2.4M", detail: "missions completed with proof", icon: BadgeCheck },
+  { label: "People connected", value: "12,543", detail: "across missions and communities", icon: Network },
+  { label: "AI decisions", value: "94%", detail: "reviewed by real people", icon: ShieldCheck },
+  { label: "Active participants", value: "1,247", detail: "people completing missions now", icon: Users },
 ];
 
 export const marketInsights = [
@@ -115,12 +115,12 @@ export const marketInsights = [
 ];
 
 export const technologyPillars = [
-  { title: "Identity layer", body: "Portable profiles, credentials, reputation, and trust graph context owned by the participant.", icon: BadgeCheck },
-  { title: "Mission layer", body: "Mission creation, discovery, participation, verification, and impact measurement.", icon: Target },
-  { title: "Intelligence layer", body: "Recommendations, matching, insight generation, and modular agent orchestration.", icon: Brain },
-  { title: "Marketplace layer", body: "Opportunity matching, escrow, rewards, and contribution-weighted value flows.", icon: BriefcaseBusiness },
-  { title: "Community layer", body: "Social proof, participation feeds, collaboration, and community resilience loops.", icon: HeartHandshake },
-  { title: "Governance layer", body: "Safety, moderation, auditability, dispute resolution, and compliance controls.", icon: Scale },
+  { title: "Your profile", body: "Your skills, experience, and reputation — portable, verified, and owned by you.", icon: BadgeCheck },
+  { title: "Challenges & goals", body: "Join, create, and complete missions with clear goals and verified outcomes.", icon: Target },
+  { title: "Smart matching", body: "AI finds the right missions for you — and you for the right missions.", icon: Brain },
+  { title: "Earn rewards", body: "Rewards, points, and real opportunities — tied to what you actually do.", icon: BriefcaseBusiness },
+  { title: "Your network", body: "Connect with others, share progress, and build something together.", icon: HeartHandshake },
+  { title: "Safe & fair", body: "Human review, dispute resolution, and community oversight at every step.", icon: Scale },
 ];
 
 export const roadmapItems = [
@@ -190,19 +190,19 @@ export const agentBlueprints = [
 ];
 
 export const outcomeCategories = [
-  { label: "Health & Wellness", description: "Exercise, nutrition, mental health, and community wellbeing missions.", count: "847 active", icon: "🏃" },
-  { label: "Learning & Education", description: "Skill building, certifications, research, and knowledge sharing.", count: "1,203 active", icon: "📚" },
-  { label: "Sustainability", description: "Climate action, local ecology, waste reduction, and sustainable practices.", count: "412 active", icon: "🌱" },
-  { label: "Community Impact", description: "Local mobilization, volunteering, civic participation, and neighborhood improvement.", count: "634 active", icon: "🤝" },
-  { label: "Exploration", description: "Discovery missions, field research, travel contributions, and local reporting.", count: "289 active", icon: "🧭" },
-  { label: "Research", description: "Citizen science, data collection, surveys, and collaborative investigation.", count: "156 active", icon: "🔬" },
-  { label: "Workforce Development", description: "Career skills, mentorship, hiring partnerships, and employment pathways.", count: "371 active", icon: "💼" },
+  { label: "Health & Wellness", description: "Exercise, nutrition, mental wellbeing, and community health challenges.", count: "847 missions open now", icon: "🏃", color: "energy", image: "photo-1571019613454-1cb2f99b2d8b" },
+  { label: "Learning & Education", description: "Build skills, earn certificates, and share knowledge with others.", count: "1,203 missions open now", icon: "📚", color: "sky", image: "photo-1434030216411-0b793f4b6f57" },
+  { label: "Sustainability", description: "Climate action, local ecology, and sustainable everyday habits.", count: "412 missions open now", icon: "🌱", color: "primary", image: "photo-1569163139599-0f4517e36f51" },
+  { label: "Community Impact", description: "Volunteering, neighbourhood improvement, and local civic action.", count: "634 missions open now", icon: "🤝", color: "rose", image: "photo-1531206715517-5c0ba140b2b4" },
+  { label: "Exploration", description: "Discovery missions, field trips, and local reporting.", count: "289 missions open now", icon: "🧭", color: "reward", image: "photo-1476514525535-07fb3b4ae5f1" },
+  { label: "Research", description: "Citizen science, surveys, and collaborative data collection.", count: "156 missions open now", icon: "🔬", color: "ai", image: "photo-1532187863486-abf9dbad1b69" },
+  { label: "Workforce Development", description: "Career skills, mentorship, and employment pathways.", count: "371 missions open now", icon: "💼", color: "sky", image: "photo-1521791136064-7986c2920216" },
 ];
 
 export const reputationScores = {
-  trust: { score: 84, label: "Trust Score", detail: "Based on verification rate, peer endorsements, and governance history.", trend: "+6 this month" },
-  participation: { score: 92, label: "Participation Score", detail: "Reflects consistency, contribution quality, and mission completion.", trend: "+12 this month" },
-  impact: { score: 71, label: "Impact Score", detail: "Measures real-world change generated across missions you have completed.", trend: "+4 this month" },
+  trust: { score: 84, label: "Reliability", detail: "How reliable others find you, based on your completed missions.", trend: "+6 this month" },
+  participation: { score: 92, label: "Activity", detail: "How often and how well you show up to missions.", trend: "+12 this month" },
+  impact: { score: 71, label: "Real-world change", detail: "The real-world difference your contributions have made.", trend: "+4 this month" },
 };
 
 export const activityFeed = [
@@ -239,10 +239,10 @@ export const verifiedContributions = [
 ];
 
 export const enterpriseOutcomes = [
-  { metric: "↑ 34%", label: "Exercise participation", context: "12-week employee wellness mission" },
-  { metric: "↑ 91%", label: "Training completion", context: "Verified peer accountability loops" },
-  { metric: "3,200", label: "Community activations", context: "Local mobilization across 8 districts" },
-  { metric: "0.82", label: "Engagement quality score", context: "Verified actions vs passive impressions" },
+  { metric: "↑ 34%", label: "Exercise participation", context: "Over a 12-week employee wellness programme" },
+  { metric: "↑ 91%", label: "Training completion", context: "With peer accountability built in" },
+  { metric: "3,200", label: "Community activations", context: "Across 8 districts, tracked and verified" },
+  { metric: "0.82", label: "Engagement quality score", context: "Real actions, not passive impressions" },
 ];
 
 export const constitutionChecks = [

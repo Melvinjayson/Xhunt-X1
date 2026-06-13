@@ -36,17 +36,24 @@ function ScoreCard({
   detail,
   trend,
   icon: Icon,
+  colorVar = "var(--primary)",
 }: {
   label: string;
   score: number;
   detail: string;
   trend: string;
   icon: React.ComponentType<{ className?: string }>;
+  colorVar?: string;
 }) {
   return (
-    <Card className="@container/card bg-linear-to-t from-primary/5 to-card shadow-xs dark:bg-card">
+    <Card
+      className="@container/card shadow-xs dark:bg-card"
+      style={{
+        background: `linear-gradient(to top, color-mix(in oklch, ${colorVar} 8%, transparent), var(--card))`,
+      }}
+    >
       <CardHeader>
-        <CardDescription className="flex items-center gap-1.5">
+        <CardDescription className="flex items-center gap-1.5" style={{ color: colorVar }}>
           <Icon className="size-3.5" />
           {label}
         </CardDescription>
@@ -55,7 +62,7 @@ function ScoreCard({
           <span className="text-lg text-muted-foreground">/100</span>
         </CardTitle>
         <CardAction>
-          <Badge variant="outline" className="gap-1 text-xs text-primary">
+          <Badge variant="outline" className="gap-1 text-xs" style={{ color: colorVar }}>
             <TrendingUp className="size-3" />
             {trend}
           </Badge>
@@ -87,18 +94,19 @@ export function ConsumerHome() {
 
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Participation Dashboard</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Your reputation, active missions, and AI-matched opportunities.</p>
+        <h1 className="text-2xl font-semibold tracking-tight">Your missions</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Pick up where you left off, or find something new.</p>
       </div>
 
-      {/* Reputation scores — dashboard-01 section-cards pattern */}
-      <div className="grid gap-4 @xl/main:grid-cols-3 grid-cols-1 sm:grid-cols-3 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+      {/* Reputation scores */}
+      <div className="grid gap-4 @xl/main:grid-cols-3 grid-cols-1 sm:grid-cols-3">
         <ScoreCard
           label={trust.label}
           score={trust.score}
           detail={trust.detail}
           trend={trust.trend}
           icon={Shield}
+          colorVar="var(--color-sky)"
         />
         <ScoreCard
           label={participation.label}
@@ -106,6 +114,7 @@ export function ConsumerHome() {
           detail={participation.detail}
           trend={participation.trend}
           icon={TrendingUp}
+          colorVar="var(--primary)"
         />
         <ScoreCard
           label={impact.label}
@@ -113,6 +122,7 @@ export function ConsumerHome() {
           detail={impact.detail}
           trend={impact.trend}
           icon={Globe2}
+          colorVar="var(--color-reward)"
         />
       </div>
 
@@ -124,9 +134,9 @@ export function ConsumerHome() {
           <CardHeader>
             <div className="flex items-start justify-between gap-4">
               <div>
-                <Badge className="mb-3 gap-1 w-fit"><Zap className="size-3" /> Continue journey</Badge>
+                <Badge className="mb-3 gap-1 w-fit"><Zap className="size-3" /> Keep going</Badge>
                 <CardTitle>Active missions</CardTitle>
-                <CardDescription>Your in-progress participation — pick up where you left off.</CardDescription>
+                <CardDescription>Missions you've already started.</CardDescription>
               </div>
               <Button render={<Link href="/missions" />} variant="ghost" size="sm" className="shrink-0">
                 View all <ChevronRight className="size-3" />
@@ -168,7 +178,7 @@ export function ConsumerHome() {
               <Sparkles className="size-3" /> Matched for you
             </Badge>
             <CardTitle>Opportunities</CardTitle>
-            <CardDescription>AI-matched to your skills, context, and reputation profile.</CardDescription>
+            <CardDescription>Chosen for you based on what you've done so far.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-3">
             {aiMatchedOpportunities.map((opp) => (
@@ -196,7 +206,7 @@ export function ConsumerHome() {
               </Link>
             ))}
             <Button render={<Link href="/explore" />} variant="outline" className="w-full gap-2">
-              See all opportunities <ArrowRight className="size-4" />
+              See all missions <ArrowRight className="size-4" />
             </Button>
           </CardContent>
         </Card>
@@ -210,7 +220,7 @@ export function ConsumerHome() {
         <Card>
           <CardHeader>
             <CardTitle>Community activity</CardTitle>
-            <CardDescription>Verified actions from your participation network.</CardDescription>
+            <CardDescription>What's happening in your community.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-1">
             {activityFeed.map((item, i) => (
