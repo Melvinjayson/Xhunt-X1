@@ -176,7 +176,7 @@ LANGUAGE sql STABLE SECURITY DEFINER AS $$
       COUNT(DISTINCT CASE WHEN event_type = 'mission_resumed'   THEN user_id END) AS returners,
       COUNT(DISTINCT CASE WHEN event_type = 'reward_claimed'    THEN user_id END) AS claimers,
       -- Step completion rate: completed steps / started steps
-      COUNT(*) FILTER (WHERE event_type = 'step_completed')::float /
+      COUNT(*) FILTER (WHERE event_type = 'step_completed')::numeric /
         NULLIF(COUNT(*) FILTER (WHERE event_type = 'step_started'), 0) AS step_rate
     FROM public.mission_events
     WHERE mission_id = p_mission_id
