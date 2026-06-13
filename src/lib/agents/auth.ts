@@ -8,6 +8,11 @@ export type AgentAuthResult =
   | { ok: false; response: NextResponse };
 
 export async function requireTenantAgent(): Promise<AgentAuthResult> {
+  // Preview build: no Clerk, no session — return stub identity
+  if (!process.env.CLERK_SECRET_KEY) {
+    return { ok: true, userId: 'preview-user', tenantId: 'preview-tenant' };
+  }
+
   try {
     const sb = await createClient();
     const { data: { user } } = await sb.auth.getUser();

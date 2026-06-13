@@ -1,26 +1,20 @@
 import Link from "next/link";
-import { SignIn, SignUp } from "@clerk/nextjs";
 import { ArrowRight, Building2, CheckCircle2, Sparkles, Users } from "lucide-react";
 import { BrandMark } from "@/components/brand";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-const clerkAppearance = {
-  elements: {
-    rootBox: "w-full",
-    cardBox: "w-full shadow-none",
-    card: "w-full border-0 bg-transparent p-0 shadow-none",
-    header: "hidden",
-    footer: "hidden",
-    formButtonPrimary: "bg-primary text-primary-foreground hover:bg-primary/90",
-    socialButtonsBlockButton: "border-border bg-background text-foreground",
-    formFieldInput: "border-input bg-background text-foreground",
-    formFieldLabel: "text-foreground",
-    identityPreviewText: "text-foreground",
-    formFieldAction: "text-primary",
-  },
-};
+function PreviewAuthNotice({ redirectHref }: { redirectHref: string }) {
+  return (
+    <div className="rounded-lg border border-dashed p-6 text-center">
+      <p className="text-sm text-muted-foreground">Auth removed for preview build.</p>
+      <Button render={<Link href={redirectHref} />} className="mt-4">
+        Continue as preview user <ArrowRight className="ml-2 size-4" />
+      </Button>
+    </div>
+  );
+}
 
 export function ConsumerSignupPanel() {
   return (
@@ -34,11 +28,7 @@ export function ConsumerSignupPanel() {
             <CardDescription>Create your profile, complete missions, build reputation, and record verified contributions.</CardDescription>
           </CardHeader>
           <CardContent>
-            <SignUp
-              appearance={clerkAppearance}
-              fallbackRedirectUrl="/get-started"
-              signInUrl="/sign-in"
-            />
+            <PreviewAuthNotice redirectHref="/home" />
             <p className="mt-4 text-sm text-muted-foreground">
               Participant access includes missions, proof submission, contribution history, and trust signals.
             </p>
@@ -75,11 +65,7 @@ export function ConsumerSigninPanel() {
           <CardDescription>Continue to your missions, contribution ledger, and reputation profile.</CardDescription>
         </CardHeader>
         <CardContent>
-          <SignIn
-            appearance={clerkAppearance}
-            fallbackRedirectUrl="/home"
-            signUpUrl="/sign-up"
-          />
+          <PreviewAuthNotice redirectHref="/home" />
         </CardContent>
       </Card>
     </main>
@@ -125,24 +111,10 @@ export function WorkspaceAuthPanel({ mode }: { mode: "sign-in" | "sign-up" }) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {signingUp ? (
-              <SignUp
-                appearance={clerkAppearance}
-                fallbackRedirectUrl="/get-started?surface=workspace"
-                signInUrl="/workspace/sign-in"
-              />
-            ) : (
-              <SignIn
-                appearance={clerkAppearance}
-                fallbackRedirectUrl="/workspace"
-                signUpUrl="/workspace/sign-up"
-              />
-            )}
+            <PreviewAuthNotice redirectHref="/workspace" />
             <div className="mt-4 flex flex-col gap-2">
-              <Button asChild variant="ghost">
-                <Link href={signingUp ? "/workspace/sign-in" : "/workspace/sign-up"}>
-                  {signingUp ? "Already have a workspace?" : "Create a workspace"} <ArrowRight />
-                </Link>
+              <Button render={<Link href={signingUp ? "/workspace/sign-in" : "/workspace/sign-up"} />} variant="ghost">
+                {signingUp ? "Already have a workspace?" : "Create a workspace"} <ArrowRight />
               </Button>
             </div>
           </CardContent>

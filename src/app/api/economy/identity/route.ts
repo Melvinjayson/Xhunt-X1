@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
 import { createClient } from '@/lib/supabase/server';
 import {
   getUserIdentity,
@@ -13,8 +12,7 @@ import {
 
 // GET /api/economy/identity?userId=&verify=<hash>
 export async function GET(req: NextRequest) {
-  const { userId: clerkId } = await auth();
-  if (!clerkId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const clerkId = 'preview-user';
 
   const url = new URL(req.url);
   const targetUserId = url.searchParams.get('userId');
@@ -57,8 +55,7 @@ export async function GET(req: NextRequest) {
 
 // POST /api/economy/identity  — issue a credential or verify a skill
 export async function POST(req: NextRequest) {
-  const { userId: clerkId } = await auth();
-  if (!clerkId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const clerkId = 'preview-user';
 
   try {
     const body = await req.json();

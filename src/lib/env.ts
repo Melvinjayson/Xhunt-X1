@@ -7,14 +7,14 @@ const serverSchema = z.object({
   STRIPE_SECRET_KEY:          z.string().min(1),
   STRIPE_WEBHOOK_SECRET:      z.string().min(1),
   STRIPE_PRO_PRICE_ID:        z.string().min(1),
-  CLERK_SECRET_KEY:           z.string().min(1),
+  CLERK_SECRET_KEY:           z.string().optional(),
   CLERK_WEBHOOK_SECRET:       z.string().optional(),
 });
 
 const publicSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL:           z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY:      z.string().min(1),
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:  z.string().min(1),
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:  z.string().optional(),
 });
 
 // Typed accessor — camelCase aliases kept for backward compatibility

@@ -10,7 +10,9 @@ export type AgentId =
   | 'community-catalyst'
   | 'trust-guardian'
   | 'sustainability-navigator'
-  | 'agent-foundry';
+  | 'agent-foundry'
+  | 'fraud-prevention'
+  | 'reward-economist';
 
 // ── Mission Architect ─────────────────────────────────────────────────────────
 
@@ -402,4 +404,97 @@ export interface AgentFoundryOutput {
     duration: string;
     dependencies: string[];
   }>;
+}
+
+// ── Fraud Prevention ──────────────────────────────────────────────────────────
+
+export interface FraudPreventionInput {
+  submission_id: string;
+  mission_id: string;
+  participant_id: string;
+  evidence_type: 'gps' | 'image' | 'video' | 'knowledge' | 'peer';
+  evidence_payload: Record<string, unknown>;
+  participant_history?: {
+    submission_count: number;
+    fraud_flags_prior: number;
+    account_age_days: number;
+    trust_score: number;
+  };
+  co_participants?: string[];
+}
+
+export type FraudDetectionType =
+  | 'gps_spoofing'
+  | 'synthetic_media'
+  | 'duplicate_submission'
+  | 'collusion'
+  | 'bot_behavior'
+  | 'velocity_attack';
+
+export interface FraudPreventionOutput {
+  risk_score: number;                    // 0–100; 100 = certain fraud
+  risk_level: 'low' | 'medium' | 'high' | 'critical';
+  fraud_signals: Array<{
+    signal: string;
+    severity: 'low' | 'medium' | 'high' | 'critical';
+    evidence: string;
+  }>;
+  detection_types: FraudDetectionType[];
+  recommendation: 'approve' | 'flag_for_review' | 'reject' | 'escalate';
+  reasoning: string;
+  collusion_suspects: string[];          // specific participant IDs, never broad brush
+  requires_human_review: boolean;        // true when risk_score > 70 or collusion detected
+  attribution_protected: boolean;        // C6: individual attribution always retained
+}
+
+// ── Reward Economist ──────────────────────────────────────────────────────────
+
+export type MissionFundingType =
+  | 'paid' | 'sponsored' | 'learning' | 'civic' | 'research' | 'sustainability' | 'workforce';
+
+export interface RewardEconomistInput {
+  mission_id: string;
+  mission_type: MissionFundingType;
+  target_outcome: string;
+  target_participant_count: number;
+  budget_total: number;
+  currency: string;
+  completion_rate_estimate: number;      // 0–100
+  market_context?: {
+    similar_mission_avg_reward: number;
+    participant_demand_signal: 'low' | 'medium' | 'high';
+    skill_scarcity: 'common' | 'moderate' | 'scarce';
+  };
+  escrow_conditions?: {
+    release_trigger: 'mei_threshold' | 'outcome_count' | 'deadline' | 'hybrid';
+    threshold_value?: number;
+  };
+}
+
+export interface RewardEconomistOutput {
+  recommended_reward_per_completion: number;
+  reward_structure: 'fixed' | 'tiered' | 'performance' | 'hybrid';
+  reward_tiers: Array<{
+    tier: string;
+    condition: string;
+    reward: number;
+  }>;
+  escrow_recommendation: {
+    release_trigger: string;
+    conditions: string;
+    rationale: string;
+  };
+  budget_allocation: {
+    participant_rewards: number;
+    platform_fee: number;
+    buffer_reserve: number;
+  };
+  risk_assessment: {
+    overpay_risk: 'low' | 'medium' | 'high';
+    underpay_risk: 'low' | 'medium' | 'high';
+    liquidity_impact: string;
+  };
+  optimization_notes: string[];
+  desiderata_alignment: string[];
+  confidence_pct: number;
 }

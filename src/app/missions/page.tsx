@@ -41,8 +41,8 @@ export default function MissionsPage() {
                     <TableCell>{mission.confidence}</TableCell>
                     <TableCell>{mission.proof}</TableCell>
                     <TableCell className="text-right">
-                      <Button asChild size="sm" variant="outline">
-                        <Link href="/mission-control">Review</Link>
+                      <Button render={<Link href="/mission-control" />} size="sm" variant="outline">
+                        Review
                       </Button>
                     </TableCell>
                   </TableRow>

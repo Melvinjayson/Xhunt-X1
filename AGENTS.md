@@ -22,15 +22,14 @@ Do not add new admin pages for features that have workspace equivalents.
 - **Never hardcode hex values** in `src/app/` or `src/components/`. CI blocks new violations.
 - Token map: `#22FFAA` → `t.accent`, `#6D5DFD` → `t.ai`, `#050816` → `t.bg`, `#07101F` → `t.surface`, `#0A1226` → `t.card`, `#F0F4FF` → `t.txt`, `#8B9CC0` → `t.txtDim`, `#4A5578` → `t.txtFaint`, `#FF5C7A` → `t.error`, `#FFB84D` → `t.warning`
 
-## Decision 3: Canonical Auth Flow
+## Decision 3: Auth — OVERRIDDEN 2026-06-13
 
-**Clerk is the single auth provider.** The flow is:
-`/sign-up` (Clerk) → Clerk webhook provisions `user_profiles` → `/get-started` (Xeno AI onboarding) until `onboarding_complete = true` → `/home` (consumer) or `/workspace` (tenant roles)
-
-- Do not use Supabase Auth (`supabase.auth.signInWithPassword`, `supabase.auth.signUp`).
-- Auth redirects go to `/sign-in` or `/sign-up` — never `/auth/login` or `/auth/signup` (those are deleted).
-- User lookup in server components: use Clerk's `auth()` to get `userId`, then `supabase.from('user_profiles').select(...).eq('clerk_user_id', userId)`.
-- Onboarding gate is enforced in `src/proxy.ts` (middleware), not in page components.
+**Current state: preview build, no auth provider.**
+- Clerk was removed. `src/proxy.ts` is a passthrough no-op. All routes are open.
+- API routes use `clerkId = 'preview-user'` stub. `src/lib/auth/profile.ts` returns a mock user.
+- `clerk_user_id` column remains in the DB schema — migrations were not dropped.
+- Auth panels (`src/components/auth/auth-panels.tsx`) show bypass buttons.
+- When reinstating auth: restore the files listed in `memory/project_clerk_removal.md`.
 
 ## Agent Rules
 

@@ -28,8 +28,8 @@ export default async function MissionDetailPage({ params }: { params: Promise<{ 
             </div>
           ))}
           <div className="md:col-span-4">
-            <Button asChild>
-              <Link href="/mission-control">Open in mission control</Link>
+            <Button render={<Link href="/mission-control" />}>
+              Open in mission control
             </Button>
           </div>
         </CardContent>

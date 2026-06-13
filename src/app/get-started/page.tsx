@@ -21,11 +21,11 @@ export default function GetStartedPage() {
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild>
-              <Link href="/home">Continue to Home <ArrowRight /></Link>
+            <Button render={<Link href="/home" />}>
+              Continue to Home <ArrowRight />
             </Button>
-            <Button asChild variant="outline">
-              <Link href="/workspace">Set up Workspace</Link>
+            <Button render={<Link href="/workspace" />} variant="outline">
+              Set up Workspace
             </Button>
           </div>
         </section>

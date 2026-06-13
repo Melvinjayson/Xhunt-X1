@@ -189,6 +189,62 @@ export const agentBlueprints = [
   { name: "Knowledge Graph Agent", purpose: "Connect identity, skill, proof, and contribution data into shared context.", boundary: "Cannot expose private data.", icon: GitBranch },
 ];
 
+export const outcomeCategories = [
+  { label: "Health & Wellness", description: "Exercise, nutrition, mental health, and community wellbeing missions.", count: "847 active", icon: "🏃" },
+  { label: "Learning & Education", description: "Skill building, certifications, research, and knowledge sharing.", count: "1,203 active", icon: "📚" },
+  { label: "Sustainability", description: "Climate action, local ecology, waste reduction, and sustainable practices.", count: "412 active", icon: "🌱" },
+  { label: "Community Impact", description: "Local mobilization, volunteering, civic participation, and neighborhood improvement.", count: "634 active", icon: "🤝" },
+  { label: "Exploration", description: "Discovery missions, field research, travel contributions, and local reporting.", count: "289 active", icon: "🧭" },
+  { label: "Research", description: "Citizen science, data collection, surveys, and collaborative investigation.", count: "156 active", icon: "🔬" },
+  { label: "Workforce Development", description: "Career skills, mentorship, hiring partnerships, and employment pathways.", count: "371 active", icon: "💼" },
+];
+
+export const reputationScores = {
+  trust: { score: 84, label: "Trust Score", detail: "Based on verification rate, peer endorsements, and governance history.", trend: "+6 this month" },
+  participation: { score: 92, label: "Participation Score", detail: "Reflects consistency, contribution quality, and mission completion.", trend: "+12 this month" },
+  impact: { score: 71, label: "Impact Score", detail: "Measures real-world change generated across missions you have completed.", trend: "+4 this month" },
+};
+
+export const activityFeed = [
+  { actor: "Climate Action Sprint", action: "Verified your proof submission", time: "2h ago", type: "verification" },
+  { actor: "Creator Skill Guild", action: "Added you to the contributor leaderboard", time: "5h ago", type: "recognition" },
+  { actor: "AI Match Engine", action: "Found 3 new opportunities matching your profile", time: "Yesterday", type: "opportunity" },
+  { actor: "Trust Guardian", action: "Your trust score increased by 4 points", time: "Yesterday", type: "trust" },
+  { actor: "Local Discovery Loop", action: "Community milestone reached — impact recorded", time: "2 days ago", type: "impact" },
+];
+
+export const activeMissions = [
+  { name: "Climate Action Sprint", category: "Sustainability", progress: 68, status: "In proof", due: "3 days left", reward: "140 pts" },
+  { name: "Creator Skill Guild", category: "Learning", progress: 41, status: "Active", due: "7 days left", reward: "85 pts" },
+  { name: "Local Discovery Loop", category: "Community", progress: 89, status: "Review pending", due: "1 day left", reward: "200 pts" },
+];
+
+export const aiMatchedOpportunities = [
+  { name: "Resilient Cities Research", category: "Research", matchScore: 97, reward: "250 pts + certificate", participants: 42, skills: ["Analysis", "Sustainability"], verified: true },
+  { name: "Workforce Readiness Program", category: "Workforce", matchScore: 93, reward: "180 pts + badge", participants: 128, skills: ["Mentorship", "Communication"], verified: true },
+  { name: "Urban Biodiversity Survey", category: "Exploration", matchScore: 88, reward: "160 pts", participants: 67, skills: ["Field Research", "Reporting"], verified: false },
+];
+
+export const participantSkills = [
+  { name: "Community Organizing", level: "Advanced", verified: true, missions: 8 },
+  { name: "Data Collection", level: "Proficient", verified: true, missions: 5 },
+  { name: "Environmental Analysis", level: "Intermediate", verified: false, missions: 3 },
+  { name: "Technical Writing", level: "Proficient", verified: true, missions: 6 },
+];
+
+export const verifiedContributions = [
+  { mission: "Climate Action Sprint", outcome: "Organized 23 participants for beach cleanup", proof: "Photo + GPS log", impact: "4.2 tons debris removed", date: "May 2026", points: 180 },
+  { mission: "Community Learning Hub", outcome: "Delivered 6 skill workshops", proof: "Attendance records + feedback", impact: "84 participants upskilled", date: "Apr 2026", points: 240 },
+  { mission: "Urban Green Survey", outcome: "Mapped 47 green spaces across district", proof: "Geo-tagged photos", impact: "Added to city planning database", date: "Mar 2026", points: 120 },
+];
+
+export const enterpriseOutcomes = [
+  { metric: "↑ 34%", label: "Exercise participation", context: "12-week employee wellness mission" },
+  { metric: "↑ 91%", label: "Training completion", context: "Verified peer accountability loops" },
+  { metric: "3,200", label: "Community activations", context: "Local mobilization across 8 districts" },
+  { metric: "0.82", label: "Engagement quality score", context: "Verified actions vs passive impressions" },
+];
+
 export const constitutionChecks = [
   "Identity implications",
   "Contribution model",

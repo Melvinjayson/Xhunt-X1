@@ -11,9 +11,7 @@ export default function NotFound() {
           <CardDescription>This part of X-hunt has not been rebuilt yet.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Button asChild>
-            <Link href="/">Go home</Link>
-          </Button>
+          <Button render={<Link href="/" />}>Go home</Button>
         </CardContent>
       </Card>
     </main>

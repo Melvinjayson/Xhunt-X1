@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
 import { createClient } from '@/lib/supabase/server';
 import { recordGovernanceAction } from '@/lib/economy/match';
 
@@ -7,8 +6,7 @@ const ADMIN_ROLES = new Set(['platform_admin', 'tenant_admin']);
 
 // GET /api/economy/governance?limit=50&actionType=ranking_override
 export async function GET(req: NextRequest) {
-  const { userId: clerkId } = await auth();
-  if (!clerkId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const clerkId = 'preview-user';
 
   const url = new URL(req.url);
   const limit = parseInt(url.searchParams.get('limit') ?? '50', 10);
@@ -39,8 +37,7 @@ export async function GET(req: NextRequest) {
 
 // POST /api/economy/governance  — record a governance action (admin only)
 export async function POST(req: NextRequest) {
-  const { userId: clerkId } = await auth();
-  if (!clerkId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const clerkId = 'preview-user';
 
   try {
     const supabase = await createClient();
@@ -87,8 +84,7 @@ export async function POST(req: NextRequest) {
 
 // PATCH /api/economy/governance/:id  — mark action as reversed
 export async function PATCH(req: NextRequest) {
-  const { userId: clerkId } = await auth();
-  if (!clerkId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const clerkId = 'preview-user';
 
   try {
     const body = await req.json();

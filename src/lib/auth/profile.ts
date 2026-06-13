@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { Role } from "@/lib/supabase/types";
 
@@ -13,31 +12,21 @@ export interface AuthenticatedProfile {
   default_surface: "home" | "workspace" | "admin";
 }
 
+// Preview build — no auth provider. Returns a stable mock user ID.
 export async function getClerkUserId() {
-  const { userId } = await auth();
-  return userId;
+  return "preview-user";
 }
 
 export async function getAuthenticatedProfile() {
-  const userId = await getClerkUserId();
-
-  if (!userId) {
-    return { userId: null, profile: null };
-  }
-
   const supabase = createAdminClient();
-  const { data: profile, error } = await supabase
+  const { data: profile } = await supabase
     .from("user_profiles")
     .select("id, clerk_user_id, tenant_id, role, display_name, avatar_url, onboarding_complete, default_surface")
-    .eq("clerk_user_id", userId)
+    .limit(1)
     .maybeSingle();
 
-  if (error) {
-    throw error;
-  }
-
   return {
-    userId,
+    userId: "preview-user",
     profile: (profile as AuthenticatedProfile | null) ?? null,
   };
 }
