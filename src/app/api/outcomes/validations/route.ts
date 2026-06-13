@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import type { DbOutcomeValidation, ValidationType, ValidationEvidence } from '@/lib/supabase/types';
 import { verifyEvidence } from '@/lib/verification/verifyEvidence';
@@ -66,10 +66,16 @@ export async function POST(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  // Fire-and-forget: run the verification pipeline without blocking the 201 response.
-  void verifyEvidence((data as DbOutcomeValidation).id, defaultDetectors).catch(
-    (err: unknown) => console.error('[verifyEvidence]', err),
-  );
+  // Run the verification pipeline after the response is sent (Vercel `after` keeps the
+  // function alive for the duration declared in vercel.json maxDuration).
+  const validationId = (data as DbOutcomeValidation).id;
+  after(async () => {
+    try {
+      await verifyEvidence(validationId, defaultDetectors);
+    } catch (err) {
+      console.error('[verifyEvidence]', err);
+    }
+  });
 
   return NextResponse.json({ validation: data as DbOutcomeValidation }, { status: 201 });
 }

@@ -27,17 +27,28 @@ export async function PATCH(
 
   const { data: existing } = await sb
     .from('outcome_validations')
-    .select('id, tenant_id')
+    .select('id, tenant_id, provenance')
     .eq('id', id)
     .eq('tenant_id', profile.tenant_id)
     .single();
 
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
+  const existingProvenance = Array.isArray((existing as Record<string, unknown>).provenance)
+    ? (existing as Record<string, unknown>).provenance as unknown[]
+    : [];
+
+  const overrideEntry = {
+    stage: 'human_review',
+    detail: `reviewer=${user.id} status=${body.status}${body.confidence_score !== undefined ? ` confidence_override=${body.confidence_score}` : ''}${body.reviewer_notes ? ` notes="${body.reviewer_notes}"` : ''}`,
+    at: new Date().toISOString(),
+  };
+
   const updates: Record<string, unknown> = {
     status: body.status,
     reviewer_id: user.id,
     reviewed_at: new Date().toISOString(),
+    provenance: [...existingProvenance, overrideEntry],
   };
   if (body.reviewer_notes !== undefined) updates.reviewer_notes = body.reviewer_notes;
   if (body.confidence_score !== undefined) updates.confidence_score = body.confidence_score;
