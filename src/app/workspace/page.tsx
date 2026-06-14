@@ -143,8 +143,8 @@ function PriorityDot({ priority }: { priority: string }) {
 export default function ExecutiveDashboard() {
   return (
     <WorkspaceShell
-      title="Executive Dashboard"
-      subtitle="Verified outcomes · MEI · Trust · Escrow"
+      title="Dashboard"
+      subtitle="Your missions, outcomes, and programme health at a glance."
       actions={
         <Button render={<Link href="/workspace/missions/new" />} size="sm" className="gap-1.5">
           <Zap className="size-3.5" /> New mission
@@ -153,7 +153,7 @@ export default function ExecutiveDashboard() {
     >
       <div className="grid gap-6">
 
-        {/* MEI overview */}
+        {/* Programme score overview */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {meiMetrics.map(({ label, score, note, value }) => (
             <Card key={label} className="@container/card">
@@ -172,15 +172,15 @@ export default function ExecutiveDashboard() {
           ))}
         </div>
 
-        {/* MEI composite + trust metrics */}
+        {/* Programme score + programme health */}
         <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
           <Card className="flex flex-col">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div>
-                  <Badge className="mb-3 gap-1 w-fit"><TrendingUp className="size-3" /> Mission Effectiveness Index</Badge>
+                  <Badge className="mb-3 gap-1 w-fit"><TrendingUp className="size-3" /> Overall programme score</Badge>
                   <CardTitle className="text-5xl font-semibold tabular-nums">{meiOverall}<span className="text-2xl text-muted-foreground">/100</span></CardTitle>
-                  <CardDescription className="mt-1">Composite across 3 active missions · 40/25/20/15 weight</CardDescription>
+                  <CardDescription className="mt-1">Across 3 active missions this month</CardDescription>
                 </div>
                 <Badge variant="outline" className="text-primary border-primary/30 gap-1 shrink-0">
                   <ArrowUpRight className="size-3" /> +4.2 vs last month
@@ -189,7 +189,7 @@ export default function ExecutiveDashboard() {
             </CardHeader>
             <CardContent className="mt-auto">
               <div className="rounded-xl border bg-card/50 p-4 grid gap-3">
-                <div className="text-xs font-medium text-muted-foreground">MEI weight breakdown</div>
+                <div className="text-xs font-medium text-muted-foreground">Score breakdown</div>
                 {meiMetrics.map(({ label, score, value }) => (
                   <div key={label} className="grid gap-1">
                     <div className="flex items-center justify-between text-xs">
@@ -206,10 +206,10 @@ export default function ExecutiveDashboard() {
           <Card>
             <CardHeader>
               <Badge className="mb-3 gap-1 w-fit bg-primary/10 text-primary border-primary/20">
-                <ShieldCheck className="size-3" /> Trust & integrity
+                <ShieldCheck className="size-3" /> Programme health
               </Badge>
-              <CardTitle>Platform trust metrics</CardTitle>
-              <CardDescription>Verified outcomes, fraud catch rate, and cost efficiency.</CardDescription>
+              <CardTitle>How your programmes are performing</CardTitle>
+              <CardDescription>Completion rates, proof quality, and cost per outcome.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-3">
               {trustMetrics.map(({ label, value, unit, trend }) => (
@@ -255,7 +255,7 @@ export default function ExecutiveDashboard() {
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-xl font-semibold tabular-nums">{m.mei}</div>
-                    <div className="text-[10px] text-muted-foreground">MEI</div>
+                    <div className="text-[10px] text-muted-foreground">Score</div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-3 text-center text-xs">
@@ -277,14 +277,14 @@ export default function ExecutiveDashboard() {
           </CardContent>
         </Card>
 
-        {/* Verification funnel + AI recommendations */}
+        {/* Proof pipeline + AI recommendations */}
         <div className="grid gap-4 lg:grid-cols-[1fr_1.1fr]">
 
-          {/* Funnel */}
+          {/* Proof pipeline */}
           <Card>
             <CardHeader>
-              <CardTitle>Verification funnel</CardTitle>
-              <CardDescription>From raw submission to rewarded verified outcome.</CardDescription>
+              <CardTitle>Proof pipeline</CardTitle>
+              <CardDescription>How participant submissions move from submitted to rewarded.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-2">
               {verificationFunnel.map(({ label, count, pct, color }) => (
@@ -318,8 +318,8 @@ export default function ExecutiveDashboard() {
               <Badge className="mb-3 gap-1 w-fit bg-primary/10 text-primary border-primary/20">
                 <Sparkles className="size-3" /> AI recommendations
               </Badge>
-              <CardTitle>Agent intelligence</CardTitle>
-              <CardDescription>Prioritised actions from the insight, reward, and fraud agents.</CardDescription>
+              <CardTitle>AI recommendations</CardTitle>
+              <CardDescription>Actions your AI team flagged this week — prioritised by impact.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-3">
               {aiRecommendations.map((rec, i) => (
@@ -328,7 +328,7 @@ export default function ExecutiveDashboard() {
                     <PriorityDot priority={rec.priority} />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[10px] font-mono text-muted-foreground">{rec.agent}</span>
+                        <span className="text-[10px] text-muted-foreground capitalize">{rec.agent.replace(/-/g, " ")}</span>
                         {rec.priority === "high" && <Badge variant="destructive" className="text-[9px] px-1">Action required</Badge>}
                       </div>
                       <div className="text-sm font-medium leading-snug">{rec.headline}</div>
@@ -347,12 +347,12 @@ export default function ExecutiveDashboard() {
           </Card>
         </div>
 
-        {/* Economic snapshot */}
+        {/* Summary snapshot */}
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { label: "Total budget locked in escrow", value: "£32,400", icon: DollarSign, detail: "Across 3 active missions" },
-            { label: "Verified outcomes this week",   value: "1,555",   icon: BadgeCheck, detail: "84.2% of submissions rewarded" },
-            { label: "Active participants",           value: "937",     icon: Users,      detail: "312 in multi-mission track" },
+            { label: "Budget held for rewards", value: "£32,400", icon: DollarSign, detail: "Paid out when outcomes are verified" },
+            { label: "Verified completions",    value: "1,555",   icon: BadgeCheck, detail: "84.2% of submissions approved" },
+            { label: "Active participants",     value: "937",     icon: Users,      detail: "312 people in more than one mission" },
           ].map(({ label, value, icon: Icon, detail }) => (
             <Card key={label}>
               <CardContent className="flex items-start gap-4 p-5">

@@ -3,7 +3,7 @@ import { ConsumerShell } from "@/components/consumer/consumer-shell";
 
 export default function HomePage() {
   return (
-    <ConsumerShell title="Home" subtitle="Your missions, proof tasks, trust signals, and next best actions.">
+    <ConsumerShell title="Home" subtitle="Pick up where you left off.">
       <ConsumerHome />
     </ConsumerShell>
   );

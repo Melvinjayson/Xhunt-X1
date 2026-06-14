@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { ConsumerShell } from "@/components/consumer/consumer-shell";
 import { outcomeCategories } from "@/components/xhunt-content";
+import { exploreMissions, MISSION_COLOR_MAP, type ExploreMission } from "@/lib/missions-data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,248 +27,86 @@ import { Separator } from "@/components/ui/separator";
 
 const UNSPLASH = "https://images.unsplash.com";
 
-const domainColorMap: Record<string, string> = {
-  energy:  "var(--color-energy)",
-  reward:  "var(--color-reward)",
-  primary: "var(--primary)",
-  rose:    "var(--color-rose)",
-  ai:      "var(--color-ai)",
-  sky:     "var(--color-sky)",
-};
-
-type Mission = {
-  id: string;
-  name: string;
-  category: string;
-  tab: string;
-  description: string;
-  matchScore: number;
-  reward: string;
-  participants: number;
-  location: string;
-  verified: boolean;
-  due: string;
-  color: string;
-  image: string;
-  skills: string[];
-};
-
-const missions: Mission[] = [
-  {
-    id: "m1",
-    name: "Climate Action Sprint",
-    category: "Sustainability",
-    tab: "Community",
-    description: "Join local teams organising beach and park clean-up events. Submit photo evidence to earn points.",
-    matchScore: 97,
-    reward: "200 pts + badge",
-    participants: 412,
-    location: "London, UK",
-    verified: true,
-    due: "3 days left",
-    color: "primary",
-    image: "photo-1569163139599-0f4517e36f51",
-    skills: ["Volunteering", "Sustainability"],
-  },
-  {
-    id: "m2",
-    name: "Resilient Cities Research",
-    category: "Research",
-    tab: "Remote",
-    description: "Contribute to citizen science research on urban resilience. Surveys and field reporting.",
-    matchScore: 94,
-    reward: "250 pts + certificate",
-    participants: 42,
-    location: "Remote",
-    verified: true,
-    due: "7 days left",
-    color: "ai",
-    image: "photo-1532187863486-abf9dbad1b69",
-    skills: ["Analysis", "Reporting"],
-  },
-  {
-    id: "m3",
-    name: "Workforce Readiness Programme",
-    category: "Workforce Development",
-    tab: "Learning",
-    description: "Complete career skill modules, earn a verified certificate, and get matched to employers.",
-    matchScore: 93,
-    reward: "180 pts + badge",
-    participants: 128,
-    location: "Remote",
-    verified: true,
-    due: "14 days left",
-    color: "sky",
-    image: "photo-1521791136064-7986c2920216",
-    skills: ["Mentorship", "Communication"],
-  },
-  {
-    id: "m4",
-    name: "Urban Biodiversity Survey",
-    category: "Exploration",
-    tab: "Nearby",
-    description: "Map and photograph local green spaces, parks, and wildlife habitats. GPS logs required.",
-    matchScore: 88,
-    reward: "160 pts",
-    participants: 67,
-    location: "Nearby",
-    verified: false,
-    due: "5 days left",
-    color: "reward",
-    image: "photo-1476514525535-07fb3b4ae5f1",
-    skills: ["Field Research", "Photography"],
-  },
-  {
-    id: "m5",
-    name: "Community Learning Hub",
-    category: "Learning & Education",
-    tab: "Learning",
-    description: "Run or attend local skill-sharing workshops. Attendance records verify your contribution.",
-    matchScore: 91,
-    reward: "240 pts",
-    participants: 84,
-    location: "Manchester, UK",
-    verified: true,
-    due: "10 days left",
-    color: "sky",
-    image: "photo-1434030216411-0b793f4b6f57",
-    skills: ["Teaching", "Community"],
-  },
-  {
-    id: "m6",
-    name: "Neighbourhood Improvement Drive",
-    category: "Community Impact",
-    tab: "Community",
-    description: "Volunteer for local improvement projects — parks, schools, and community spaces.",
-    matchScore: 86,
-    reward: "120 pts",
-    participants: 203,
-    location: "Birmingham, UK",
-    verified: true,
-    due: "Open-ended",
-    color: "rose",
-    image: "photo-1531206715517-5c0ba140b2b4",
-    skills: ["Volunteering", "Leadership"],
-  },
-  {
-    id: "m7",
-    name: "Employee Wellness Challenge",
-    category: "Health & Wellness",
-    tab: "Remote",
-    description: "10,000 steps a day for 30 days. Log your activity and earn a verified health record.",
-    matchScore: 82,
-    reward: "150 pts",
-    participants: 318,
-    location: "Remote",
-    verified: true,
-    due: "Ongoing",
-    color: "energy",
-    image: "photo-1571019613454-1cb2f99b2d8b",
-    skills: ["Health", "Accountability"],
-  },
-  {
-    id: "m8",
-    name: "AI Ethics Audit Sprint",
-    category: "Research",
-    tab: "Remote",
-    description: "Review AI decision logs and flag potential bias issues. Structured review process with guidance.",
-    matchScore: 79,
-    reward: "300 pts + certificate",
-    participants: 33,
-    location: "Remote",
-    verified: true,
-    due: "21 days left",
-    color: "ai",
-    image: "photo-1485827404703-89b55fcc595e",
-    skills: ["Analysis", "Ethics"],
-  },
-  {
-    id: "m9",
-    name: "Creator Skill Guild",
-    category: "Learning & Education",
-    tab: "Learning",
-    description: "Level up your creative skills — design, writing, video. Peer-reviewed output earns attribution.",
-    matchScore: 84,
-    reward: "85 pts + portfolio entry",
-    participants: 156,
-    location: "Remote",
-    verified: false,
-    due: "Ongoing",
-    color: "sky",
-    image: "photo-1561070791-2526d30994b5",
-    skills: ["Design", "Writing"],
-  },
-];
+const domainColorMap = MISSION_COLOR_MAP;
+type Mission = ExploreMission;
 
 const tabs = ["All", "Nearby", "Remote", "Learning", "Community", "Impact", "Paid"];
 
 function MissionCard({ mission, onJoin }: { mission: Mission; onJoin: (id: string) => void }) {
   const color = domainColorMap[mission.color] ?? "var(--primary)";
+  const wasJoined = false;
 
   return (
-    <Card className="group flex flex-col overflow-hidden transition-all duration-200 hover:shadow-lg" style={{ borderColor: `color-mix(in oklch, ${color} 20%, var(--border))` }}>
-      {/* Image header */}
-      <div className="relative h-36 overflow-hidden">
-        <Image
-          src={`${UNSPLASH}/${mission.image}?auto=format&fit=crop&w=400&h=180&q=75`}
-          alt={mission.name}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          unoptimized
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-        <div className="absolute inset-0 opacity-20" style={{ background: color }} />
-        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 pb-2">
-          <Badge className="text-[10px] border-white/20 bg-black/50 text-white backdrop-blur-sm">{mission.category}</Badge>
-          {mission.verified && (
-            <BadgeCheck className="size-4 text-white drop-shadow" style={{ filter: `drop-shadow(0 0 4px ${color})` }} />
-          )}
+    <Link href={`/missions/${mission.id}`} className="block">
+      <Card className="group flex flex-col overflow-hidden transition-all duration-200 hover:shadow-lg cursor-pointer" style={{ borderColor: `color-mix(in oklch, ${color} 20%, var(--border))` }}>
+        {/* Image header */}
+        <div className="relative h-36 overflow-hidden">
+          <Image
+            src={`${UNSPLASH}/${mission.image}?auto=format&fit=crop&w=400&h=180&q=75`}
+            alt={mission.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+          <div className="absolute inset-0 opacity-20" style={{ background: color }} />
+          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 pb-2">
+            <Badge className="text-[10px] border-white/20 bg-black/50 text-white backdrop-blur-sm">{mission.category}</Badge>
+            {mission.verified && (
+              <BadgeCheck className="size-4 text-white drop-shadow" style={{ filter: `drop-shadow(0 0 4px ${color})` }} />
+            )}
+          </div>
+          <div className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: `color-mix(in oklch, ${color} 70%, black)` }}>
+            {mission.matchScore}% match
+          </div>
         </div>
-        {/* Match score chip */}
-        <div className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: `color-mix(in oklch, ${color} 70%, black)` }}>
-          {mission.matchScore}% match
-        </div>
-      </div>
 
-      <CardHeader className="pb-2 pt-3">
-        <CardTitle className="text-sm leading-snug">{mission.name}</CardTitle>
-        <CardDescription className="text-xs line-clamp-2 mt-1">{mission.description}</CardDescription>
-      </CardHeader>
+        <CardHeader className="pb-2 pt-3">
+          <CardTitle className="text-sm leading-snug">{mission.name}</CardTitle>
+          <CardDescription className="text-xs line-clamp-2 mt-1">{mission.description}</CardDescription>
+        </CardHeader>
 
-      <CardContent className="mt-auto pt-0 grid gap-3">
-        <div className="flex flex-wrap gap-1">
-          {mission.skills.map((s) => (
-            <span key={s} className="rounded-full px-2 py-0.5 text-[10px] border" style={{ borderColor: `color-mix(in oklch, ${color} 30%, var(--border))`, color }}>
-              {s}
-            </span>
-          ))}
-        </div>
-        <Separator />
-        <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1 truncate"><Users className="size-3 shrink-0" />{mission.participants}</span>
-          <span className="flex items-center gap-1 truncate"><MapPin className="size-3 shrink-0" />{mission.location}</span>
-          <span className="flex items-center gap-1 truncate"><Clock className="size-3 shrink-0" />{mission.due}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            className="flex-1 gap-1 text-xs"
-            style={{ background: color, color: "black" }}
-            onClick={() => onJoin(mission.id)}
-          >
-            Join mission <ArrowRight className="size-3" />
-          </Button>
-          <Button size="icon" variant="outline" className="size-8 shrink-0" aria-label="Save">
-            <Bookmark className="size-3.5" />
-          </Button>
-        </div>
-        <div className="flex items-center justify-between text-xs">
-          <span className="font-medium" style={{ color }}>{mission.reward}</span>
-          <span className="text-muted-foreground">reward</span>
-        </div>
-      </CardContent>
-    </Card>
+        <CardContent className="mt-auto pt-0 grid gap-3">
+          <div className="flex flex-wrap gap-1">
+            {mission.skills.map((s) => (
+              <span key={s} className="rounded-full px-2 py-0.5 text-[10px] border" style={{ borderColor: `color-mix(in oklch, ${color} 30%, var(--border))`, color }}>
+                {s}
+              </span>
+            ))}
+          </div>
+          <Separator />
+          <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1 truncate"><Users className="size-3 shrink-0" />{mission.participants}</span>
+            <span className="flex items-center gap-1 truncate"><MapPin className="size-3 shrink-0" />{mission.location}</span>
+            <span className="flex items-center gap-1 truncate"><Clock className="size-3 shrink-0" />{mission.due}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              className="flex-1 gap-1 text-xs"
+              style={{ background: color, color: "black" }}
+              onClick={(e) => { e.preventDefault(); onJoin(mission.id); }}
+            >
+              {wasJoined ? "✓ Joined" : "Join mission"} <ArrowRight className="size-3" />
+            </Button>
+            <Button
+              size="icon"
+              variant="outline"
+              className="size-8 shrink-0"
+              aria-label="Save"
+              onClick={(e) => e.preventDefault()}
+            >
+              <Bookmark className="size-3.5" />
+            </Button>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="font-medium" style={{ color }}>{mission.reward}</span>
+            <span className="text-muted-foreground">tap card for details</span>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
@@ -276,7 +115,7 @@ export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [joined, setJoined] = useState<Set<string>>(new Set());
 
-  const filtered = missions.filter((m) => {
+  const filtered = exploreMissions.filter((m) => {
     const matchesTab = activeTab === "All" || m.tab === activeTab || m.category.includes(activeTab);
     const matchesSearch = searchQuery === "" || m.name.toLowerCase().includes(searchQuery.toLowerCase()) || m.category.toLowerCase().includes(searchQuery.toLowerCase()) || m.skills.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesTab && matchesSearch;
@@ -376,7 +215,7 @@ export default function ExplorePage() {
               {filtered.map((mission) => (
                 <MissionCard
                   key={mission.id}
-                  mission={{ ...mission, name: joined.has(mission.id) ? `✓ ${mission.name}` : mission.name }}
+                  mission={mission}
                   onJoin={handleJoin}
                 />
               ))}
