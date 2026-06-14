@@ -4,8 +4,6 @@ import { AGENT_SYSTEM_PROMPTS } from '@/lib/agents/prompts';
 import type { CommunityCatalystInput, CommunityCatalystOutput } from '@/lib/agents/types';
 import { requireTenantAgent } from '@/lib/agents/auth';
 
-const client = new Anthropic();
-
 export async function POST(req: NextRequest) {
   const agentAuth = await requireTenantAgent();
   if (!agentAuth.ok) return agentAuth.response;
@@ -13,6 +11,8 @@ export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 503 });
   }
+
+  const client = new Anthropic();
 
   let input: CommunityCatalystInput;
   try {
@@ -45,7 +45,7 @@ Return a JSON object matching the CommunityCatalystOutput schema exactly. No mar
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-5',
+      model: 'claude-opus-4-8',
       max_tokens: 2048,
       system: AGENT_SYSTEM_PROMPTS['community-catalyst'],
       messages: [{ role: 'user', content: userPrompt }],

@@ -29,8 +29,8 @@ export interface RouterResponse {
 }
 
 const MODEL_MAP: Record<Exclude<ModelTier, 'local'>, string> = {
-  reasoning: 'claude-opus-4-5',
-  fast: 'claude-haiku-4-5-20251001',
+  reasoning: 'claude-opus-4-8',
+  fast: 'claude-haiku-4-5',
 };
 
 class AIRouter {

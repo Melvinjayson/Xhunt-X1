@@ -62,7 +62,7 @@ export default function ProfilePage() {
   const { trust, participation, impact } = reputationScores;
 
   return (
-    <ConsumerShell title="Participation Identity" subtitle="Your reputation, credentials, contributions, and trust profile.">
+    <ConsumerShell title="Profile" subtitle="Your reputation, skills, and completed missions.">
       <div className="grid gap-6">
 
         {/* Profile header */}
@@ -79,10 +79,10 @@ export default function ProfilePage() {
                     <h1 className="text-xl font-semibold">Preview Participant</h1>
                     <Badge className="gap-1"><BadgeCheck className="size-3" /> Verified</Badge>
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">Portable reputation active · Trust graph connected</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Reputation score active · Profile verified</p>
                   <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1"><Globe2 className="size-3" /> Participation Network since 2025</span>
-                    <span className="flex items-center gap-1"><LinkIcon className="size-3" /> Profile verified</span>
+                    <span className="flex items-center gap-1"><Globe2 className="size-3" /> On X-Hunt since 2025</span>
+                    <span className="flex items-center gap-1"><LinkIcon className="size-3" /> Identity verified</span>
                   </div>
                 </div>
               </div>
@@ -99,16 +99,16 @@ export default function ProfilePage() {
 
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <div className="flex gap-6 text-sm">
-                <div><span className="font-semibold">42</span><span className="text-muted-foreground ml-1.5">Contributions</span></div>
+                <div><span className="font-semibold">42</span><span className="text-muted-foreground ml-1.5">Completions</span></div>
                 <div><span className="font-semibold">12</span><span className="text-muted-foreground ml-1.5">Missions</span></div>
-                <div><span className="font-semibold">186</span><span className="text-muted-foreground ml-1.5">Proof events</span></div>
+                <div><span className="font-semibold">186</span><span className="text-muted-foreground ml-1.5">Actions taken</span></div>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" className="gap-1.5">
                   <Settings className="size-3.5" /> Edit profile
                 </Button>
                 <Button variant="outline" size="sm" className="gap-1.5">
-                  <ArrowUpRight className="size-3.5" /> Share identity
+                  <ArrowUpRight className="size-3.5" /> Share profile
                 </Button>
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                 <Medal className="size-4 text-primary" />
                 <CardTitle>Verified contributions</CardTitle>
               </div>
-              <CardDescription>Your portfolio of verified, auditable participation outcomes.</CardDescription>
+              <CardDescription>Missions you&apos;ve completed with verified proof.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
               {verifiedContributions.map((c, i) => (
@@ -193,7 +193,7 @@ export default function ProfilePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Reputation breakdown</CardTitle>
-                <CardDescription>How your participation capital is calculated.</CardDescription>
+                <CardDescription>What makes up your reputation score.</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-3">
                 {[trust, participation, impact].map(({ label, score, detail, trend }) => (

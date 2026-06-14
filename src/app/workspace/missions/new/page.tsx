@@ -248,7 +248,7 @@ export default function MissionStudio() {
               <CardContent className="flex flex-col items-center justify-center py-10 gap-3">
                 <Loader2 className="size-8 text-primary animate-spin" />
                 <div className="text-sm font-medium">Mission Architect is designing…</div>
-                <div className="text-xs text-muted-foreground text-center">Applying constitutional gate and Ubuntu constraints</div>
+                <div className="text-xs text-muted-foreground text-center">Analysing your goals and building the mission structure…</div>
               </CardContent>
             </Card>
           )}

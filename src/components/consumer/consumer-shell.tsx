@@ -39,9 +39,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const primaryNav = [
-  { href: "/home", label: "Dashboard", icon: Home },
-  { href: "/explore", label: "Opportunities", icon: Compass },
-  { href: "/missions", label: "Activity", icon: Zap },
+  { href: "/home", label: "Home", icon: Home },
+  { href: "/explore", label: "Explore", icon: Compass },
+  { href: "/missions", label: "Missions", icon: Zap },
   { href: "/messages", label: "Messages", icon: MessageCircle },
   { href: "/profile", label: "Profile", icon: User },
 ];
@@ -49,7 +49,7 @@ const primaryNav = [
 const mobileNav = [
   { href: "/home", label: "Home", icon: Home },
   { href: "/explore", label: "Explore", icon: Compass },
-  { href: "/missions", label: "Activity", icon: Zap },
+  { href: "/missions", label: "Missions", icon: Zap },
   { href: "/messages", label: "Messages", icon: MessageCircle },
   { href: "/profile", label: "Profile", icon: User },
 ];

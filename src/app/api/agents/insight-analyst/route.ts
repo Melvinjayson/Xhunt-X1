@@ -4,8 +4,6 @@ import { AGENT_SYSTEM_PROMPTS } from '@/lib/agents/prompts';
 import type { InsightAnalystInput, InsightAnalystOutput } from '@/lib/agents/types';
 import { requireTenantAgent } from '@/lib/agents/auth';
 
-const client = new Anthropic();
-
 export async function POST(req: NextRequest) {
   const auth = await requireTenantAgent();
   if (!auth.ok) return auth.response;
@@ -13,6 +11,8 @@ export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 503 });
   }
+
+  const client = new Anthropic();
 
   let input: InsightAnalystInput;
   try {
@@ -48,7 +48,7 @@ Return a JSON object matching the InsightAnalystOutput schema exactly. Raw JSON 
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-5',
+      model: 'claude-opus-4-8',
       max_tokens: 2048,
       system: AGENT_SYSTEM_PROMPTS['insight-analyst'],
       messages: [{ role: 'user', content: userPrompt }],

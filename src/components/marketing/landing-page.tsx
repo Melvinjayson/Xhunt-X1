@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,6 +9,7 @@ import {
   ChevronRight,
   Globe2,
   Network,
+  Quote,
   Scale,
   Shield,
   Sparkles,
@@ -29,19 +31,60 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
+const UNSPLASH = "https://images.unsplash.com";
+
 const participationFlow = [
-  { step: "Identity", description: "Verified profile, skills, and history.", icon: BadgeCheck },
-  { step: "Participation", description: "Join missions matched to your context.", icon: Zap },
-  { step: "Verification", description: "Submit proof. Earn auditable trust.", icon: Shield },
-  { step: "Reputation", description: "Participation capital compounds over time.", icon: TrendingUp },
-  { step: "Opportunity", description: "Unlock better matches, rewards, and roles.", icon: Sparkles },
+  { step: "Create your profile", description: "Add your skills and experience — takes 2 minutes.", icon: BadgeCheck },
+  { step: "Find a mission", description: "Find and join missions that suit you.", icon: Zap },
+  { step: "Show your work", description: "Submit what you did. We check it's real.", icon: Shield },
+  { step: "Build your record", description: "Your track record grows with every mission.", icon: TrendingUp },
+  { step: "Get better opportunities", description: "Better opportunities find you automatically.", icon: Sparkles },
+];
+
+const domainColorMap: Record<string, string> = {
+  energy:  "var(--color-energy)",
+  reward:  "var(--color-reward)",
+  primary: "var(--primary)",
+  rose:    "var(--color-rose)",
+  ai:      "var(--color-ai)",
+  sky:     "var(--color-sky)",
+};
+
+const domainGlowMap: Record<string, string> = {
+  energy:  "card-glow-energy",
+  reward:  "card-glow-reward",
+  primary: "card-glow-primary",
+  rose:    "card-glow-rose",
+  ai:      "card-glow-ai",
+  sky:     "card-glow-sky",
+};
+
+const testimonials = [
+  {
+    quote: "I completed a climate mission near me and got a certificate that actually helped me land a volunteer coordinator role.",
+    name: "Amara T.",
+    role: "Community organiser, Bristol",
+    avatar: "photo-1531746020798-e6953c6e8e04",
+  },
+  {
+    quote: "We ran a workforce training programme through X-Hunt and could finally show our funders real proof of impact.",
+    name: "Kieran M.",
+    role: "Programme lead, Skills Forward",
+    avatar: "photo-1507003211169-0a1dd7228f2d",
+  },
+  {
+    quote: "My trust score opened doors I didn't expect — companies started reaching out to me instead of the other way round.",
+    name: "Priya S.",
+    role: "Freelance researcher",
+    avatar: "photo-1494790108377-be9c29b29330",
+  },
 ];
 
 const footerSections = [
-  { heading: "Participation Network", links: ["How it works", "Mission types", "Verification", "Trust graph"] },
-  { heading: "Trust Infrastructure", links: ["Reputation system", "Proof standards", "Governance", "Audit trail"] },
-  { heading: "Impact Intelligence", links: ["XIL agents", "Outcome matching", "Community analytics", "Double materiality"] },
-  { heading: "Developer Ecosystem", links: ["API reference", "Webhooks", "SDK", "Agent foundry"] },
+  { heading: "How it works", links: ["How to join", "Mission types", "How we verify", "Your reputation"] },
+  { heading: "Trust & safety", links: ["Reliability system", "How we verify", "Community rules", "Transparency"] },
+  { heading: "What X-Hunt does", links: ["How AI helps", "Impact tracking", "Community analytics", "Reward system"] },
+  { heading: "Build with us", links: ["API reference", "Webhooks", "SDK", "Developer docs"] },
 ];
 
 export function LandingPage() {
@@ -61,39 +104,45 @@ export function LandingPage() {
           </nav>
           <div className="flex items-center gap-2">
             <Button render={<Link href="/workspace/sign-in" />} variant="ghost" size="sm">
-              Workspace
+              For organisations
             </Button>
             <Button render={<Link href="/sign-up" />} size="sm">
-              Start participating
+              Find your first mission
             </Button>
           </div>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="relative mx-auto grid max-w-7xl min-h-[calc(100vh-4rem)] items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2">
-        <div>
+      <section className="hero-grid relative mx-auto grid max-w-7xl min-h-[calc(100vh-4rem)] items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2">
+        {/* Radial glow accents */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-32 left-1/4 size-96 rounded-full opacity-20 blur-3xl" style={{ background: "var(--color-ai)" }} />
+          <div className="absolute bottom-0 right-0 size-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--primary)" }} />
+        </div>
+
+        <div className="relative">
           <Badge variant="secondary" className="mb-6 gap-1.5 px-3 py-1.5 text-xs">
             <span className="size-1.5 rounded-full bg-primary animate-pulse inline-block" />
-            1,247 participants coordinating now
+            1,247 people completing missions right now
           </Badge>
           <h1 className="text-5xl font-semibold tracking-tight text-balance leading-[1.1] sm:text-6xl lg:text-7xl">
-            Turn goals into<br />
-            <span className="text-primary">verified outcomes.</span>
+            Do real things.<br />
+            <span className="gradient-text">Get credit for it.</span>
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-7 text-muted-foreground">
-            The Participation Network where people, organizations, and AI coordinate real-world action, verify results, and reward impact.
+            Join missions in your community, show what you did, and earn a record of your real-world impact — portable and always yours.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button render={<Link href="/home" />} size="lg" className="gap-2">
-              Start participating <ArrowRight className="size-4" />
+              Find your first mission <ArrowRight className="size-4" />
             </Button>
             <Button render={<Link href="/workspace/sign-up" />} variant="outline" size="lg">
-              Create a mission
+              Run a mission programme
             </Button>
           </div>
 
-          {/* Social proof */}
+          {/* Social proof stats */}
           <div className="mt-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
             {platformStats.slice(0, 2).map(({ label, value }) => (
               <div key={label} className="flex items-baseline gap-1.5">
@@ -104,13 +153,13 @@ export function LandingPage() {
           </div>
         </div>
 
-        {/* Participation flow visualization */}
+        {/* Participation flow card */}
         <div className="relative">
           <div className="rounded-2xl border bg-card/50 p-6 shadow-xl backdrop-blur">
             <div className="mb-5 flex items-center justify-between">
               <div>
-                <div className="text-sm font-medium">Participation Economy</div>
-                <div className="text-xs text-muted-foreground">How X-Hunt creates lasting value</div>
+                <div className="text-sm font-medium">How X-Hunt works</div>
+                <div className="text-xs text-muted-foreground">From sign-up to real impact in 5 steps</div>
               </div>
               <Badge className="gap-1 text-xs"><Sparkles className="size-3" /> Live</Badge>
             </div>
@@ -135,9 +184,9 @@ export function LandingPage() {
             <Separator className="my-4" />
             <div className="grid grid-cols-3 gap-3 text-center">
               {[
-                { value: "2.4M", label: "Verified outcomes" },
-                { value: "84%", label: "Trust score avg" },
-                { value: "94%", label: "Human-auditable" },
+                { value: "2.4M", label: "Completed missions" },
+                { value: "84%", label: "Avg reliability score" },
+                { value: "94%", label: "AI reviewed by humans" },
               ].map(({ value, label }) => (
                 <div key={label} className="rounded-lg bg-background/60 px-2 py-3">
                   <div className="text-lg font-semibold tabular-nums">{value}</div>
@@ -146,95 +195,113 @@ export function LandingPage() {
               ))}
             </div>
           </div>
-          {/* Decorative glow */}
           <div className="pointer-events-none absolute -inset-px rounded-2xl bg-primary/5" />
         </div>
       </section>
 
       {/* Platform stats bar */}
-      <section className="border-y bg-card/30">
+      <section className="border-y" style={{ background: "linear-gradient(to right, color-mix(in oklch, var(--color-ai) 5%, transparent), var(--card) 40%, color-mix(in oklch, var(--primary) 5%, transparent))" }}>
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px px-4 sm:px-6 lg:grid-cols-4">
-          {platformStats.map(({ label, value, detail, icon: Icon }) => (
-            <div key={label} className="flex items-center gap-3 px-4 py-5">
-              <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Icon className="size-4" />
+          {platformStats.map(({ label, value, detail, icon: Icon }, i) => {
+            const colors = ["var(--primary)", "var(--color-sky)", "var(--color-ai)", "var(--color-reward)"];
+            const c = colors[i] ?? "var(--primary)";
+            return (
+              <div key={label} className="flex items-center gap-3 px-4 py-5">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg" style={{ background: `color-mix(in oklch, ${c} 12%, transparent)`, color: c }}>
+                  <Icon className="size-4" />
+                </div>
+                <div>
+                  <div className="text-xl font-semibold tabular-nums">{value}</div>
+                  <div className="text-xs text-muted-foreground">{detail}</div>
+                </div>
               </div>
-              <div>
-                <div className="text-xl font-semibold tabular-nums">{value}</div>
-                <div className="text-xs text-muted-foreground">{detail}</div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
       {/* Outcome categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <div className="mb-10">
-          <Badge variant="outline" className="mb-4">Where participation happens</Badge>
+          <Badge variant="outline" className="mb-4">What you can do</Badge>
           <h2 className="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
-            Every domain where collective action creates measurable change.
+            Pick the area that matters to you.
           </h2>
           <p className="mt-3 max-w-xl text-muted-foreground">
-            From local community action to global research initiatives — X-Hunt coordinates participation across the full spectrum of human outcomes.
+            From local volunteering to global research — there&apos;s a mission for everyone.
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {outcomeCategories.map(({ label, description, count, icon }) => (
-            <Link href="/explore" key={label}>
-              <Card className="group h-full transition-colors hover:border-primary/50 hover:bg-card/80">
-                <CardHeader className="pb-3">
-                  <div className="text-2xl mb-2">{icon}</div>
-                  <CardTitle className="text-base">{label}</CardTitle>
-                  <CardDescription className="text-xs leading-relaxed">{description}</CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-primary font-medium">{count}</span>
-                    <ChevronRight className="size-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+          {outcomeCategories.map(({ label, description, count, color, image }) => {
+            const domainColor = domainColorMap[color] ?? "var(--primary)";
+            const glowClass = domainGlowMap[color] ?? "card-glow-primary";
+            return (
+              <Link href="/explore" key={label}>
+                <div className={`group relative h-52 overflow-hidden rounded-2xl border cursor-pointer transition-all duration-300 ${glowClass}`}>
+                  {/* Background image */}
+                  <Image
+                    src={`${UNSPLASH}/${image}?auto=format&fit=crop&w=400&q=75`}
+                    alt={label}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    unoptimized
+                  />
+                  {/* Dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  {/* Domain colour tint */}
+                  <div className="absolute inset-0 opacity-20" style={{ background: domainColor }} />
+                  {/* Content */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-4">
+                    <div className="text-sm font-semibold text-white">{label}</div>
+                    <div className="mt-1 text-xs leading-relaxed text-white/70">{description}</div>
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="text-xs font-medium" style={{ color: domainColor }}>{count}</span>
+                      <ChevronRight className="size-3.5 text-white/60 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+                </div>
+              </Link>
+            );
+          })}
           {/* CTA card */}
-          <Card className="flex flex-col items-start justify-between border-dashed bg-transparent p-6">
+          <div className="flex flex-col items-start justify-between rounded-2xl border border-dashed bg-transparent p-6 h-52">
             <div>
-              <div className="mb-2 text-sm font-medium">Create a new category</div>
-              <p className="text-xs text-muted-foreground">Have a mission type we haven't covered? Propose it to the community.</p>
+              <div className="mb-2 text-sm font-medium">Suggest a new category</div>
+              <p className="text-xs text-muted-foreground">Have a mission type we haven&apos;t covered? Propose it to the community.</p>
             </div>
             <Button render={<Link href="/sign-up" />} variant="outline" size="sm" className="mt-4 gap-1.5">
               Propose <ArrowRight className="size-3" />
             </Button>
-          </Card>
+          </div>
         </div>
       </section>
 
       {/* Reputation layer */}
-      <section className="border-y bg-card/30">
+      <section className="border-y" style={{ background: "linear-gradient(to right, color-mix(in oklch, var(--color-sky) 5%, transparent), var(--card) 50%, color-mix(in oklch, var(--color-reward) 5%, transparent))" }}>
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2">
           <div>
-            <Badge variant="outline" className="mb-4">Participation capital</Badge>
+            <Badge variant="outline" className="mb-4">Your track record</Badge>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Your reputation compounds with every verified action.
+              Every mission you complete builds your reputation.
             </h2>
             <p className="mt-4 text-muted-foreground">
-              X-Hunt builds three distinct reputation scores that reflect who you are, what you do, and what changes because of you.
+              We track three things that show who you are and what you&apos;ve done — all verifiable, all portable.
             </p>
             <div className="mt-8 grid gap-4">
               {[
-                { icon: Shield, label: "Trust Score", detail: "Verification rate, peer endorsements, and governance history. Portably yours.", score: "84" },
-                { icon: TrendingUp, label: "Participation Score", detail: "Consistency, quality, and completion rate across every mission.", score: "92" },
-                { icon: Globe2, label: "Impact Score", detail: "Measured real-world change generated by your contributions.", score: "71" },
-              ].map(({ icon: Icon, label, detail, score }) => (
+                { icon: Shield, label: "Reliability", detail: "How consistent and trustworthy others find you.", score: "84", color: "var(--color-sky)" },
+                { icon: TrendingUp, label: "Activity", detail: "How often and how well you show up.", score: "92", color: "var(--primary)" },
+                { icon: Globe2, label: "Real-world change", detail: "What's actually changed because of your contributions.", score: "71", color: "var(--color-reward)" },
+              ].map(({ icon: Icon, label, detail, score, color }) => (
                 <div key={label} className="flex items-start gap-4 rounded-xl border bg-background p-4">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg" style={{ background: `color-mix(in oklch, ${color} 12%, transparent)`, color }}>
                     <Icon className="size-5" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">{label}</span>
-                      <span className="text-lg font-semibold tabular-nums text-primary">{score}</span>
+                      <span className="text-lg font-semibold tabular-nums" style={{ color }}>{score}</span>
                     </div>
                     <p className="mt-0.5 text-xs text-muted-foreground">{detail}</p>
                   </div>
@@ -246,22 +313,22 @@ export function LandingPage() {
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <Bot className="size-4 text-primary" />
-                  <CardTitle className="text-base">Community Intelligence</CardTitle>
+                  <Bot className="size-4" style={{ color: "var(--color-ai)" }} />
+                  <CardTitle className="text-base">AI that works for you</CardTitle>
                 </div>
                 <CardDescription>
-                  How AI coordinates participation without replacing human judgment.
+                  Smart matching and verification — with humans always in the loop.
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-3">
                 {[
-                  { title: "AI-powered matching", body: "Your skills, context, and reputation guide mission recommendations — not ads or algorithms optimizing for clicks." },
-                  { title: "Proof verification", body: "Agents review submission quality, flag inconsistencies, and escalate edge cases to human governance." },
-                  { title: "Trust graph modeling", body: "Every interaction strengthens a cross-domain trust graph that belongs to you, not the platform." },
-                  { title: "Human oversight", body: "Every AI decision is traceable, auditable, and reversible by community governance." },
-                ].map(({ title, body }) => (
+                  { title: "Matched to you", body: "Your skills and experience guide what you see — not ads or engagement tricks.", color: "var(--color-ai)" },
+                  { title: "We check it's real", body: "AI reviews what you submit, flags anything unusual, and passes edge cases to real people.", color: "var(--primary)" },
+                  { title: "Your network, your data", body: "Every connection you make is yours to keep — not locked in to our platform.", color: "var(--color-sky)" },
+                  { title: "Always reviewed by people", body: "Every AI decision is traceable and can be appealed by the community.", color: "var(--color-rose)" },
+                ].map(({ title, body, color }) => (
                   <div key={title} className="flex gap-3 rounded-lg border bg-card/50 p-3">
-                    <CheckCircle2 className="size-4 mt-0.5 shrink-0 text-primary" />
+                    <CheckCircle2 className="size-4 mt-0.5 shrink-0" style={{ color }} />
                     <div>
                       <div className="text-sm font-medium">{title}</div>
                       <div className="mt-0.5 text-xs text-muted-foreground">{body}</div>
@@ -278,29 +345,29 @@ export function LandingPage() {
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
           <div>
-            <Badge variant="outline" className="mb-4"><Building2 className="size-3 mr-1" /> For organizations</Badge>
+            <Badge variant="outline" className="mb-4"><Building2 className="size-3 mr-1" /> For organisations</Badge>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Coordinate outcomes.<br />Not campaigns.
             </h2>
             <p className="mt-4 text-muted-foreground">
-              X-Hunt gives teams and organizations the infrastructure to run verified participation programs — with real accountability and measurable results.
+              X-Hunt gives teams and organisations the tools to run verified participation programmes — with real accountability and proof that it worked.
             </p>
             <div className="mt-6 grid gap-3">
               {[
-                "Define missions with clear proof requirements",
-                "Coordinate contributors with AI-assisted matching",
-                "Verify outcomes with auditable evidence",
-                "Measure impact with double materiality metrics",
-              ].map((item) => (
-                <div key={item} className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="size-4 shrink-0 text-primary" />
-                  {item}
+                { text: "Set clear goals with proof built in", color: "var(--primary)" },
+                { text: "Match contributors automatically with AI", color: "var(--color-ai)" },
+                { text: "Get proof your programme actually worked", color: "var(--color-sky)" },
+                { text: "Report financial and social impact — in one place", color: "var(--color-reward)" },
+              ].map(({ text, color }) => (
+                <div key={text} className="flex items-center gap-2 text-sm">
+                  <CheckCircle2 className="size-4 shrink-0" style={{ color }} />
+                  {text}
                 </div>
               ))}
             </div>
             <div className="mt-8 flex gap-3">
               <Button render={<Link href="/workspace/sign-up" />} size="lg">
-                Create a workspace <ArrowRight className="size-4" />
+                Set up your workspace <ArrowRight className="size-4" />
               </Button>
               <Button render={<Link href="/developers" />} variant="outline" size="lg">
                 API docs
@@ -308,65 +375,114 @@ export function LandingPage() {
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-            {enterpriseOutcomes.map(({ metric, label, context }) => (
-              <Card key={label}>
-                <CardHeader className="pb-2">
-                  <div className="text-3xl font-semibold tabular-nums text-primary">{metric}</div>
-                  <CardTitle className="text-base">{label}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-muted-foreground">{context}</p>
-                </CardContent>
-              </Card>
-            ))}
+            {enterpriseOutcomes.map(({ metric, label, context }, i) => {
+              const colors = ["var(--primary)", "var(--color-sky)", "var(--color-rose)", "var(--color-reward)"];
+              const c = colors[i] ?? "var(--primary)";
+              return (
+                <Card key={label}>
+                  <CardHeader className="pb-2">
+                    <div className="text-3xl font-semibold tabular-nums" style={{ color: c }}>{metric}</div>
+                    <CardTitle className="text-base">{label}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-xs text-muted-foreground">{context}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Platform pillars */}
+      {/* Platform pillars — bento-style */}
       <section className="border-t bg-card/20">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
           <div className="mb-10 text-center">
-            <h2 className="text-2xl font-semibold tracking-tight">Built on six platform layers</h2>
-            <p className="mt-2 text-sm text-muted-foreground">Every feature strengthens one of these foundational domains.</p>
+            <h2 className="text-2xl font-semibold tracking-tight">How X-Hunt works under the hood</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Six things that make verified participation possible.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {technologyPillars.map(({ title, body, icon: Icon }) => (
-              <div key={title} className="flex gap-4 rounded-xl border bg-background p-5">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="size-5" />
+            {technologyPillars.map(({ title, body, icon: Icon }, i) => {
+              const colors = ["var(--color-sky)", "var(--primary)", "var(--color-ai)", "var(--color-reward)", "var(--color-rose)", "var(--color-sky)"];
+              const c = colors[i] ?? "var(--primary)";
+              return (
+                <div key={title} className="flex gap-4 rounded-xl border bg-background p-5 transition-colors hover:border-border/80">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg" style={{ background: `color-mix(in oklch, ${c} 12%, transparent)`, color: c }}>
+                    <Icon className="size-5" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold">{title}</div>
+                    <div className="mt-1 text-xs text-muted-foreground leading-relaxed">{body}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold">{title}</div>
-                  <div className="mt-1 text-xs text-muted-foreground leading-relaxed">{body}</div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* Testimonials */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <div className="mb-10 text-center">
+          <Badge variant="outline" className="mb-4">Real people, real results</Badge>
+          <h2 className="text-2xl font-semibold tracking-tight">What participants say</h2>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-3">
+          {testimonials.map(({ quote, name, role, avatar }, i) => {
+            const colors = ["var(--color-sky)", "var(--primary)", "var(--color-ai)"];
+            const c = colors[i] ?? "var(--primary)";
+            return (
+              <Card key={name} className="relative">
+                <CardContent className="pt-6">
+                  <Quote className="size-5 mb-3 opacity-40" style={{ color: c }} />
+                  <p className="text-sm leading-relaxed text-muted-foreground">&ldquo;{quote}&rdquo;</p>
+                  <div className="mt-5 flex items-center gap-3">
+                    <div className="relative size-9 overflow-hidden rounded-full border">
+                      <Image
+                        src={`${UNSPLASH}/${avatar}?auto=format&fit=crop&w=80&h=80&q=80`}
+                        alt={name}
+                        fill
+                        className="object-cover"
+                        sizes="36px"
+                        unoptimized
+                      />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold">{name}</div>
+                      <div className="text-xs text-muted-foreground">{role}</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Final CTA */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 text-center">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Infrastructure for participation.
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Join the network where every verified action builds your reputation, strengthens your community, and creates measurable impact.
-          </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button render={<Link href="/sign-up" />} size="lg" className="gap-2">
-              Start participating <ArrowRight className="size-4" />
-            </Button>
-            <Button render={<Link href="/workspace/sign-up" />} variant="outline" size="lg">
-              Run a mission program
-            </Button>
-          </div>
-          <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1.5"><BadgeCheck className="size-4 text-primary" /> Verified outcomes</div>
-            <div className="flex items-center gap-1.5"><Network className="size-4 text-primary" /> Portable reputation</div>
-            <div className="flex items-center gap-1.5"><Scale className="size-4 text-primary" /> Human governance</div>
+        <div className="relative mx-auto max-w-2xl rounded-3xl border p-10 overflow-hidden" style={{ background: "linear-gradient(135deg, color-mix(in oklch, var(--color-ai) 8%, var(--card)), color-mix(in oklch, var(--primary) 8%, var(--card)))" }}>
+          <div className="pointer-events-none absolute inset-0 hero-grid opacity-30" />
+          <div className="relative">
+            <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+              Ready to start?
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Complete missions. Prove your impact. Build a reputation that goes with you everywhere.
+            </p>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Button render={<Link href="/sign-up" />} size="lg" className="gap-2">
+                Find your first mission <ArrowRight className="size-4" />
+              </Button>
+              <Button render={<Link href="/workspace/sign-up" />} variant="outline" size="lg">
+                Run a mission programme
+              </Button>
+            </div>
+            <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground flex-wrap">
+              <div className="flex items-center gap-1.5"><BadgeCheck className="size-4" style={{ color: "var(--primary)" }} /> Real proof</div>
+              <div className="flex items-center gap-1.5"><Network className="size-4" style={{ color: "var(--color-sky)" }} /> Reputation that&apos;s yours</div>
+              <div className="flex items-center gap-1.5"><Scale className="size-4" style={{ color: "var(--color-ai)" }} /> Always human oversight</div>
+            </div>
           </div>
         </div>
       </section>
@@ -378,7 +494,7 @@ export function LandingPage() {
             <div className="lg:col-span-1">
               <BrandMark />
               <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
-                The operating system for verified participation. Built for people, organizations, communities, and AI agents.
+                Complete real missions. Build a reputation that opens doors. Join people making a genuine difference.
               </p>
             </div>
             {footerSections.map(({ heading, links }) => (
@@ -396,7 +512,7 @@ export function LandingPage() {
           </div>
           <Separator className="my-8" />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-muted-foreground">
-            <div>© 2026 X-Hunt. Participation Network.</div>
+            <div>© 2026 X-Hunt. All rights reserved.</div>
             <div className="flex gap-4">
               <Link href="#" className="hover:text-foreground transition-colors">Privacy</Link>
               <Link href="#" className="hover:text-foreground transition-colors">Terms</Link>
