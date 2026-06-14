@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 
-const client = new Anthropic();
-
 const SYSTEM_PROMPT = `You are Xeno, the friendly onboarding guide for X-Hunt — a platform where people complete real-world missions, build their reputation, and earn rewards for genuine impact.
 
 Your job is to have a short, warm conversation to understand what the user wants to do and help them get started. You should:
@@ -34,6 +32,8 @@ export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 503 });
   }
+
+  const client = new Anthropic();
 
   let body: { messages: OnboardingMessage[] };
   try {

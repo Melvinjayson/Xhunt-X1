@@ -5,8 +5,6 @@ import type { AgentFoundryInput, AgentFoundryOutput } from '@/lib/agents/types';
 import { requireTenantAgent } from '@/lib/agents/auth';
 import { createClient } from '@/lib/supabase/server';
 
-const client = new Anthropic();
-
 const ADMIN_ROLES = new Set(['platform_admin', 'tenant_admin']);
 
 export async function POST(req: NextRequest) {
@@ -26,6 +24,8 @@ export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 503 });
   }
+
+  const client = new Anthropic();
 
   let input: AgentFoundryInput;
   try {

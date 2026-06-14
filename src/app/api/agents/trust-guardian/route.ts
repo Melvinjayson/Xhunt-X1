@@ -5,8 +5,6 @@ import type { TrustGuardianInput, TrustGuardianOutput } from '@/lib/agents/types
 import { requireTenantAgent } from '@/lib/agents/auth';
 import { runHeuristicCheck, persistConstitutionalCheck } from '@/lib/xil/constitution';
 
-const client = new Anthropic();
-
 export async function POST(req: NextRequest) {
   const agentAuth = await requireTenantAgent();
   if (!agentAuth.ok) return agentAuth.response;
@@ -14,6 +12,8 @@ export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 503 });
   }
+
+  const client = new Anthropic();
 
   let input: TrustGuardianInput;
   try {
