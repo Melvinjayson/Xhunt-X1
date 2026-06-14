@@ -38,7 +38,7 @@ Return a JSON object matching the MissionArchitectOutput schema exactly. No mark
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-5',
+      model: 'claude-opus-4-8',
       max_tokens: 2048,
       system: AGENT_SYSTEM_PROMPTS['mission-architect'],
       messages: [{ role: 'user', content: userPrompt }],

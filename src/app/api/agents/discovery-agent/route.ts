@@ -44,7 +44,7 @@ Return a JSON object matching the DiscoveryAgentOutput schema exactly. No markdo
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-5',
+      model: 'claude-opus-4-8',
       max_tokens: 2048,
       system: AGENT_SYSTEM_PROMPTS['discovery-agent'],
       messages: [{ role: 'user', content: userPrompt }],
