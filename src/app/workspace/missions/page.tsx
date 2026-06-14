@@ -173,7 +173,7 @@ function MissionCard({ m }: { m: Mission }) {
           {m.mei !== null ? (
             <>
               <div className="text-xl font-semibold tabular-nums">{m.mei}</div>
-              <div className="text-[10px] text-muted-foreground">MEI</div>
+              <div className="text-[10px] text-muted-foreground">Score</div>
             </>
           ) : (
             <Badge variant="outline" className="text-[10px]">No data</Badge>
@@ -219,7 +219,7 @@ export default function MissionsPage() {
   return (
     <WorkspaceShell
       title="Missions"
-      subtitle="Design, fund, distribute, and measure verified outcome missions."
+      subtitle="Create, manage, and track your outcome missions."
       actions={
         <Button render={<Link href="/workspace/missions/new" />} size="sm" className="gap-1.5">
           <Plus className="size-3.5" /> New mission
@@ -233,7 +233,7 @@ export default function MissionsPage() {
           {[
             { label: "Total missions",    value: missions.length.toString(),                        icon: BadgeCheck },
             { label: "Active",            value: missions.filter(m => m.status === "active").length.toString(), icon: BadgeCheck },
-            { label: "Avg MEI",           value: `${Math.round(missions.filter(m => m.mei !== null).reduce((a, m) => a + (m.mei ?? 0), 0) / missions.filter(m => m.mei !== null).length)}`, icon: BadgeCheck },
+            { label: "Avg score",          value: `${Math.round(missions.filter(m => m.mei !== null).reduce((a, m) => a + (m.mei ?? 0), 0) / missions.filter(m => m.mei !== null).length)}`, icon: BadgeCheck },
             { label: "In draft",          value: missions.filter(m => m.status === "draft").length.toString(), icon: BadgeCheck },
           ].map(({ label, value }) => (
             <Card key={label}>
